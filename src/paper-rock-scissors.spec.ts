@@ -10,11 +10,11 @@ test("Day 2 puzzle a sample", () => {
 B X
 C Z`;
 
-  const score = RockPaperScissors.calculateScore(input);
+  const score = RockPaperScissors.calculateScore(input, false);
   expect(score).toEqual(15);
 });
 
-test("Day 2 puzzle a sample", () => {
+test("Day 2 puzzle answers", () => {
   const input =
 `C Z
 C Y
@@ -2517,6 +2517,19 @@ A Z
 A Z
 B Y`;
 
-  const score = RockPaperScissors.calculateScore(input);
+  const score = RockPaperScissors.calculateScore(input,false);
   expect(score).toEqual(9241);
+
+  const score2 = RockPaperScissors.calculateScore(input, true);
+  expect(score2).toEqual(14610);
+});
+
+test("Day 2 puzzle b sample", () => {
+  const input =
+`A Y
+B X
+C Z`;
+
+  const score = RockPaperScissors.calculateScore(input, true);
+  expect(score).toEqual(12);
 });
