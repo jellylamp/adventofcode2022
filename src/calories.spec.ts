@@ -1,11 +1,10 @@
 // @ts-ignore see https://github.com/jest-community/jest-extended#setup
 import * as matchers from "jest-extended";
-import {ElfGroup} from "./index";
+import {ElfGroup} from "./calories";
 
 expect.extend(matchers);
 
 test("Day 1 puzzle a sample", () => {
-  console.log('test');
   const input = "1000\n" +
       "2000\n" +
       "3000\n" +
@@ -26,7 +25,6 @@ test("Day 1 puzzle a sample", () => {
 });
 
 test("Day 1 puzzle a input", () => {
-  console.log('HERE');
   const input = `7569
 1357
 10134
@@ -2281,15 +2279,12 @@ test("Day 1 puzzle a input", () => {
 3507
 `;
 
-
-  console.log('after');
   let elfGroup = new ElfGroup(input);
   expect(elfGroup.getMaxCalories()).toEqual(72240);
   expect(elfGroup.getTopThreeCalories()).toEqual(210957);
 });
 
 test("Day 1 puzzle b sample", () => {
-  console.log('test');
   const input = "1000\n" +
       "2000\n" +
       "3000\n" +
