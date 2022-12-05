@@ -53,7 +53,7 @@ export class Crane {
       const moveTo = parseInt(instructionArr[2]) - 1; // zero index
 
       for (let i = 0; i < moveCount; i++) {
-        const findMoveFromIndex = this.findFirstColumnValue(0, moveFrom);
+        let findMoveFromIndex = this.findFirstColumnValue(0, moveFrom);
         let findMoveToIndex = this.findFirstColumnValue(0, moveTo) - 1; // subtract 1 to put on TOP
         const itemToMove = this.craneMap[findMoveFromIndex][moveFrom];
         console.log('instruction', instruction);
@@ -78,6 +78,7 @@ export class Crane {
           this.craneMap = [...[emptyArr], ...this.craneMap];
           // console.log('crane map after', this.craneMap);
           findMoveToIndex = 0;
+          findMoveFromIndex++;
         }
 
         this.craneMap[findMoveFromIndex][moveFrom] = '';
@@ -91,15 +92,14 @@ export class Crane {
 
   findFirstColumnValue(rowIndex, moveFrom) {
     const moveFromRowValue = this.craneMap[rowIndex][moveFrom];
-    // get row, find first object.
 
     // make sure to handle completely empty row
-    if (rowIndex === this.craneMap.length) {
+    if (rowIndex === this.craneMap.length - 1) {
       return rowIndex;
     }
     if (moveFromRowValue === '') {
       rowIndex++;
-      this.findFirstColumnValue(rowIndex, moveFrom);
+      rowIndex = this.findFirstColumnValue(rowIndex, moveFrom);
     }
     return rowIndex;
   }
