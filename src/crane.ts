@@ -1,5 +1,5 @@
 export class Crane {
-  craneMap: string[][]=[[],[]];
+  craneMap: string[][] = [[], []];
   craneText: string[] = [];
 
   constructor(input) {
@@ -25,7 +25,7 @@ export class Crane {
       // filter out unwanted characters for easier parsing.
       for (let j = 0; j < craneData.length; j++) {
         let bucket: string = craneData[j];
-        bucket = bucket.replace(/ /g,'');
+        bucket = bucket.replace(/ /g, '');
         bucket = bucket.replace('[', '');
         bucket = bucket.replace(']', '');
         craneData[j] = bucket;
@@ -35,15 +35,15 @@ export class Crane {
     }
   }
 
-//     [D]
-// [N] [C]
-// [Z] [M] [P]
-//  1   2   3
-//
-// move 1 from 2 to 1
-// move 3 from 1 to 3
-// move 2 from 2 to 1
-// move 1 from 1 to 2
+  //     [D]
+  // [N] [C]
+  // [Z] [M] [P]
+  //  1   2   3
+  //
+  // move 1 from 2 to 1
+  // move 3 from 1 to 3
+  // move 2 from 2 to 1
+  // move 1 from 1 to 2
 
   moveCrane() {
     this.craneText.forEach(instruction => {
@@ -56,47 +56,33 @@ export class Crane {
         let findMoveFromIndex = this.findFirstColumnValue(0, moveFrom);
         let findMoveToIndex = this.findFirstColumnValue(0, moveTo) - 1; // subtract 1 to put on TOP
         const itemToMove = this.craneMap[findMoveFromIndex][moveFrom];
-        console.log('instruction', instruction);
-        console.table(this.craneMap);
-        // console.log('movecount', i);
-        // console.log('movefromindex', findMoveFromIndex);
-        // console.log('findMoveToIndex', findMoveToIndex);
-        // console.log('item to move', itemToMove);
 
         if (findMoveToIndex === -1) {
           // add a row on top of the array so it can grow
           const numValues = this.craneMap[0].length;
-          // console.log('num values', numValues);
-
           const emptyArr = [];
           for (let k = 0; k < numValues; k++) {
             emptyArr.push('');
           }
-          // console.log('empty arr', emptyArr);
-          // console.log('crane map before', this.craneMap);
-          // this.craneMap.slice().unshift(emptyArr);
+          this.craneMap.slice().unshift(emptyArr);
           this.craneMap = [...[emptyArr], ...this.craneMap];
-          // console.log('crane map after', this.craneMap);
           findMoveToIndex = 0;
           findMoveFromIndex++;
         }
 
         this.craneMap[findMoveFromIndex][moveFrom] = '';
         this.craneMap[findMoveToIndex][moveTo] = itemToMove;
-        console.table(this.craneMap);
-        // console.log('AFTER from', this.craneMap[findMoveFromIndex][moveFrom]);
-        // console.log('AFTER to', this.craneMap[findMoveToIndex][moveTo]);
       }
     });
   }
 
   findFirstColumnValue(rowIndex, moveFrom) {
-    const moveFromRowValue = this.craneMap[rowIndex][moveFrom];
-
     // make sure to handle completely empty row
-    if (rowIndex === this.craneMap.length - 1) {
+    if (rowIndex === this.craneMap.length) {
       return rowIndex;
     }
+
+    const moveFromRowValue = this.craneMap[rowIndex][moveFrom];
     if (moveFromRowValue === '') {
       rowIndex++;
       rowIndex = this.findFirstColumnValue(rowIndex, moveFrom);
@@ -113,12 +99,23 @@ export class Crane {
     return instruction.split(' ');
   }
 
+  getTopValue(column) {
+    for (let i = 0; i < this.craneMap.length; i++) {
+      const item = this.craneMap[i][column];
+      if (item !== '') {
+        return item;
+      }
+    }
+
+    return '';
+  }
+
   getTopCraneItems() {
     let topString = '';
     const numColumns = this.craneMap[0].length;
     for (let i = 0; i < numColumns; i++) {
-      const topColumnValue = this.findFirstColumnValue(0, i);
-      topString.concat(topColumnValue);
+      const topColumnValue = this.getTopValue(i);
+      topString += topColumnValue;
     }
     return topString;
   }
