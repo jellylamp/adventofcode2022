@@ -1075,5 +1075,5 @@ move 1 from 2 to 7`;
 
   let crane = new Crane(input);
   crane.moveCrane9001();
-  expect(crane.getTopCraneItems()).toEqual('SPFMVDTZT');
+  expect(crane.getTopCraneItems()).toEqual('ZFSJBPRFP');
 });
