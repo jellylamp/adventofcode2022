@@ -1054,4 +1054,5 @@ $ ls
 
     const fileTree = new FileTree(input);
     expect(fileTree.getAllDirsEqualOrUnder100000()).toEqual(1648397);
+    expect(fileTree.getMostEfficientDirToDelete()).toEqual(1815525);
 });

@@ -65,13 +65,7 @@ export class FileTree {
             this.directorySizes[dirName + this.runningIndex] = dirSize;
           }
         }
-        // don't think we actually care, skip it.
-        // else if (line === '$ ls') {
-        //     // next lines are new files and dirs, keep track of size
-        //     // if dir its another directory
-        //     // else grab the file size and save it.
 
-        // }
       } else {
         if (line.startsWith('dir')) {
           // ignore for now, may need to map out the tree.
@@ -98,5 +92,31 @@ export class FileTree {
     }
 
     return runningSum;
+  }
+
+  getMostEfficientDirToDelete(): number {
+    const maxFileSize = 70000000;
+    const minimumSpaceNeeded = 30000000;
+    const currentSize = this.directorySizes['/'];
+    const unusedSpace = maxFileSize - currentSize;
+    const dirsThatCanBeDeleted = {};
+
+    // find all eligible sizes to delete
+    for (const property in this.directorySizes) {
+      const propSize = this.directorySizes[property];
+
+      if (unusedSpace + propSize >= minimumSpaceNeeded) {
+        dirsThatCanBeDeleted[property] = propSize;
+      }
+    }
+    let smallestNumber = currentSize;
+
+    // get smallest one
+    for (const property in dirsThatCanBeDeleted) {
+      if (dirsThatCanBeDeleted[property] < smallestNumber) {
+        smallestNumber = dirsThatCanBeDeleted[property];
+      }
+    }
+    return smallestNumber;
   }
 }
